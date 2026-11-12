@@ -170,3 +170,23 @@ class InterviewState(BaseModel):
     asked_questions: list[str] = Field(default_factory=list)
     followups_on_current_topic: int = Field(default=0, ge=0)
     status: SessionStatus = SessionStatus.PLANNED
+
+
+# ---------------------------------------------------------------------------
+# Routing decision (produced by deterministic Python in `decide`, never by an LLM)
+# ---------------------------------------------------------------------------
+
+
+class Action(StrEnum):
+    FOLLOW_UP = "follow_up"  # probe the same topic using the last answer
+    DEEPEN = "deepen"  # new, harder question on the same topic
+    NEXT_TOPIC = "next_topic"
+    END = "end"
+
+
+class Decision(BaseModel):
+    action: Action
+    # Difficulty the next question should use.
+    difficulty: Difficulty
+    # Human-readable explanation; shown in the CLI and handy when debugging routing.
+    reason: str

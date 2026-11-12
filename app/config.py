@@ -20,6 +20,21 @@ SCORE_WEIGHTS: dict[str, float] = {
 }
 
 
+@dataclass(frozen=True)
+class RoutingRules:
+    """Thresholds for the deterministic `decide` step."""
+
+    # Overall score (1-5) at or above this counts as a strong answer: raise difficulty.
+    strong_threshold: float = 4.0
+    # Overall score at or below this counts as a weak answer: lower difficulty.
+    weak_threshold: float = 2.0
+    # Maximum follow-up questions asked within one topic.
+    max_followups_per_topic: int = 2
+
+
+DEFAULT_ROUTING = RoutingRules()
+
+
 class ConfigError(Exception):
     """Raised when required configuration is missing or invalid."""
 
