@@ -16,6 +16,7 @@ from uuid import uuid4
 
 from pydantic import BaseModel, Field, model_validator
 
+
 class Difficulty(StrEnum):
     EASY = "easy"
     MEDIUM = "medium"
